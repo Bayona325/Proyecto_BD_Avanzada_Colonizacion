@@ -41,7 +41,7 @@ CREATE TABLE Ventas (
   id_venta INT AUTO_INCREMENT PRIMARY KEY,
   id_cliente INT NOT NULL,
   fecha_venta DATETIME DEFAULT CURRENT_TIMESTAMP,
-  estado ENUM('Pendiente de Pago', 'Procesando', 'Enviado', 'Entregado', 'Cancelado') DEFAULT 'Pendiente de Pago',
+  estado ENUM('PENDIENTE_PAGO','PROCESANDO','ENVIADO','ENTREGADO','CANCELADO') DEFAULT 'PENDIENTE_PAGO',
   total DECIMAL(10,2) NOT NULL CHECK (total >= 0),
   FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
 );
