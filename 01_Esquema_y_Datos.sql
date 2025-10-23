@@ -13,6 +13,8 @@ CREATE TABLE Proveedores (
 
 CREATE TABLE Productos (
   id_producto INT AUTO_INCREMENT PRIMARY KEY,
+  id_categoria INT NOT NULL,
+  id_proveedor INT NOT NULL,
   nombre VARCHAR(100) NOT NULL UNIQUE,
   descripcion TEXT,
   precio DECIMAL(10,2) NOT NULL CHECK (precio > 0),
@@ -21,8 +23,6 @@ CREATE TABLE Productos (
   sku VARCHAR(50) NOT NULL UNIQUE,
   fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
   activo BOOLEAN DEFAULT TRUE,
-  id_categoria INT NOT NULL,
-  id_proveedor INT NOT NULL,
   FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria),
   FOREIGN KEY (id_proveedor) REFERENCES Proveedores(id_proveedor)
 );
