@@ -1,7 +1,7 @@
 CREATE TABLE Categorias (
   id_categoria INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL UNIQUE,
-  descripcion TEXT
+  descripcion VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Proveedores (
@@ -33,7 +33,7 @@ CREATE TABLE Clientes (
   apellido VARCHAR(50) NOT NULL,
   email VARCHAR(100) NOT NULL UNIQUE,
   contraseña VARCHAR(255) NOT NULL,
-  direccion_envio TEXT,
+  direccion_envio VARCHAR(255) NOT NULL,
   fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
