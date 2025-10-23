@@ -56,8 +56,7 @@ CREATE TABLE Detalle_Ventas (
   FOREIGN KEY (id_producto) REFERENCES Productos(id_producto)
 );
 
-INSERT INTO Categorias (nombre, descripcion)
-VALUES
+INSERT INTO Categorias (nombre, descripcion) VALUES
 ('Electrónica', 'Productos electrónicos y dispositivos tecnológicos.'),
 ('Ropa', 'Prendas de vestir para hombres y mujeres.'),
 ('Hogar', 'Artículos y accesorios para el hogar.'),
@@ -79,8 +78,7 @@ VALUES
 ('Viajes', 'Artículos para viajes y equipaje.'),
 ('Ferretería', 'Herramientas y materiales de construcción.');
 
-INSERT INTO Proveedores (nombre, email_contacto, telefono_contacto)
-VALUES
+INSERT INTO Proveedores (nombre, email_contacto, telefono_contacto) VALUES
 ('TechWorld S.A.', 'contacto@techworld.com', '+34 600 123 456'),
 ('ModaPlus Ltd.', 'ventas@modaplus.com', '+34 601 654 321'),
 ('CasaBonita S.L.', 'info@casabonita.es', '+34 602 222 333'),
@@ -102,8 +100,7 @@ VALUES
 ('TravelPack', 'contacto@travelpack.com', '+34 618 888 999'),
 ('FerreTools', 'info@ferretools.es', '+34 619 111 222');
 
-INSERT INTO Productos (nombre, descripcion, precio, costo, stock, sku, id_categoria, id_proveedor)
-VALUES
+INSERT INTO Productos (nombre, descripcion, precio, costo, stock, sku, id_categoria, id_proveedor) VALUES
 ('Smartphone Galaxy X', 'Teléfono inteligente de última generación con 128GB de almacenamiento.', 699.99, 450.00, 30, 'ELEC-001', 1, 1),
 ('Camiseta Básica Blanca', 'Camiseta de algodón 100% unisex.', 14.99, 6.00, 100, 'ROP-001', 2, 2),
 ('Cafetera Automática', 'Cafetera programable con molinillo integrado.', 129.90, 80.00, 20, 'HOG-001', 3, 3),
@@ -125,8 +122,7 @@ VALUES
 ('Maleta Rígida 24"', 'Equipaje resistente con cierre TSA.', 89.99, 45.00, 30, 'VIA-001', 19, 19),
 ('Taladro Percutor 800W', 'Herramienta eléctrica profesional.', 99.99, 55.00, 25, 'FER-001', 20, 20);
 
-INSERT INTO Clientes (nombre, apellido, email, contraseña, direccion_envio)
-VALUES
+INSERT INTO Clientes (nombre, apellido, email, contraseña, direccion_envio) VALUES
 ('Laura', 'García', 'laura.garcia@email.com', 'hash123abc', 'Calle Mayor 12, Madrid'),
 ('Carlos', 'Fernández', 'carlos.fernandez@email.com', 'hash456def', 'Av. del Sol 45, Sevilla'),
 ('Marta', 'López', 'marta.lopez@email.com', 'hash789ghi', 'C/ Jardines 8, Valencia'),
@@ -148,8 +144,7 @@ VALUES
 ('Rosa', 'Luna', 'rosa.luna@email.com', 'hash606ooo', 'Av. Libertad 16, Oviedo'),
 ('Fernando', 'Blanco', 'fernando.blanco@email.com', 'hash707ppp', 'Paseo del Prado 25, Madrid');
 
-INSERT INTO Ventas (id_cliente, estado, total)
-VALUES
+INSERT INTO Ventas (id_cliente, estado, total) VALUES
 (1, 'Procesando', 749.98),
 (2, 'Enviado', 49.99),
 (3, 'Pendiente_Pago', 129.90),
@@ -171,8 +166,7 @@ VALUES
 (19, 'Entregado', 9.99),
 (20, 'Procesando', 699.99);
 
-INSERT INTO Detalle_Ventas (id_venta, id_producto, cantidad, precio_unitario_congelado)
-VALUES
+INSERT INTO Detalle_Ventas (id_venta, id_producto, cantidad, precio_unitario_congelado) VALUES
 (1, 1, 1, 699.99),
 (1, 2, 1, 14.99),
 (2, 4, 1, 49.99),
