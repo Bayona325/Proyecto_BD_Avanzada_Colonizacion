@@ -56,27 +56,69 @@ CREATE TABLE Detalle_Ventas (
   FOREIGN KEY (id_producto) REFERENCES Productos(id_producto)
 );
 
+CREATE TABLE Empleados (
+  id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  apellido VARCHAR(50) NOT NULL,
+  cargo VARCHAR(50),
+  email VARCHAR(100) UNIQUE,
+  fecha_contratacion DATE DEFAULT CURRENT_TIMESTAMP,
+  salario DECIMAL(10,2)
+);
+
+CREATE TABLE Pagos (
+  id_pago INT AUTO_INCREMENT PRIMARY KEY,
+  id_venta INT NOT NULL,
+  metodo_pago VARCHAR(50),
+  estado_pago ENUM('PENDIENTE','EN_PROCESO','COMPLETADO','CANCELADO') DEFAULT 'PENDIENTE',
+  fecha_pago DATETIME DEFAULT CURRENT_TIMESTAMP,
+  monto DECIMAL(10,2),
+  FOREIGN KEY (id_venta) REFERENCES Ventas(id_venta)
+);
+
+CREATE TABLE Envios (
+  id_envio INT AUTO_INCREMENT PRIMARY KEY,
+  id_venta INT NOT NULL,
+  empresa_transportista VARCHAR(100),
+  fecha_envio DATE,
+  fecha_entrega_estimada DATE,
+  estado_envio ENUM('PENDIENTE','EN_CAMINO','ENTREGADO','CANCELADO') DEFAULT 'PENDIENTE',
+  FOREIGN KEY (id_venta) REFERENCES Ventas(id_venta)
+);
+
+CREATE TABLE Inventario_Movimientos (
+  id_movimiento INT AUTO_INCREMENT PRIMARY KEY,
+  id_producto INT NOT NULL,
+  tipo_movimiento ENUM('ENTRADA','SALIDA'),
+  cantidad INT NOT NULL CHECK (cantidad > 0),
+  fecha_movimiento DATETIME DEFAULT CURRENT_TIMESTAMP,
+  id_empleado INT,
+  comentario VARCHAR(255),
+  FOREIGN KEY (id_producto) REFERENCES Productos(id_producto),
+  FOREIGN KEY (id_empleado) REFERENCES Empleados(id_empleado)
+);
+
 INSERT INTO Categorias (nombre, descripcion) VALUES
 ('Electrónica', 'Productos electrónicos y dispositivos tecnológicos.'),
 ('Ropa', 'Prendas de vestir para hombres y mujeres.'),
 ('Hogar', 'Artículos y accesorios para el hogar.'),
-('Juguetes', 'Juguetes y juegos para niños de todas las edades.'),
-('Deportes', 'Equipamiento y accesorios deportivos.'),
+('Juguetes', 'Juguetes y juegos para niños.'),
+('Deportes', 'Equipamiento deportivo.'),
 ('Libros', 'Libros y material de lectura.'),
 ('Belleza', 'Productos de cuidado personal y belleza.'),
 ('Automotriz', 'Accesorios y repuestos para vehículos.'),
-('Jardinería', 'Herramientas y suministros para jardín.'),
+('Jardinería', 'Herramientas para jardín.'),
 ('Oficina', 'Material de oficina y papelería.'),
 ('Mascotas', 'Artículos para el cuidado de mascotas.'),
-('Salud', 'Productos para el bienestar y salud personal.'),
+('Salud', 'Productos para bienestar personal.'),
 ('Música', 'Instrumentos y accesorios musicales.'),
 ('Videojuegos', 'Consolas y juegos electrónicos.'),
-('Calzado', 'Zapatos, botas y zapatillas.'),
+('Calzado', 'Zapatos y zapatillas.'),
 ('Electrodomésticos', 'Pequeños y grandes electrodomésticos.'),
-('Decoración', 'Artículos decorativos para interiores.'),
+('Decoración', 'Artículos decorativos.'),
 ('Fotografía', 'Cámaras y accesorios fotográficos.'),
 ('Viajes', 'Artículos para viajes y equipaje.'),
-('Ferretería', 'Herramientas y materiales de construcción.');
+('Ferretería', 'Herramientas de construcción.');
 
 INSERT INTO Proveedores (nombre, email_contacto, telefono_contacto) VALUES
 ('TechWorld S.A.', 'contacto@techworld.com', '+34 600 123 456'),
@@ -187,3 +229,91 @@ INSERT INTO Detalle_Ventas (id_venta, id_producto, cantidad, precio_unitario_con
 (17, 17, 1, 39.99),
 (18, 19, 1, 89.99),
 (19, 12, 1, 9.99);
+
+INSERT INTO Empleados (nombre, apellido, cargo, email, salario) VALUES
+('Laura', 'Ramírez', 'Gerente General', 'laura.ramirez@ecommerce.com', 4500.00),
+('Carlos', 'Torres', 'Administrador', 'carlos.torres@ecommerce.com', 3500.00),
+('Marta', 'Pérez', 'Atención al Cliente', 'marta.perez@ecommerce.com', 2000.00),
+('Javier', 'Santos', 'Logística', 'javier.santos@ecommerce.com', 2200.00),
+('Ana', 'Ruiz', 'Marketing', 'ana.ruiz@ecommerce.com', 2500.00),
+('David', 'Gómez', 'Contabilidad', 'david.gomez@ecommerce.com', 2400.00),
+('Lucía', 'Morales', 'Diseño', 'lucia.morales@ecommerce.com', 2100.00),
+('Pablo', 'Hernández', 'TI', 'pablo.hernandez@ecommerce.com', 3000.00),
+('Sofía', 'Díaz', 'Ventas', 'sofia.diaz@ecommerce.com', 2300.00),
+('Diego', 'Fernández', 'Inventario', 'diego.fernandez@ecommerce.com', 2200.00),
+('Elena', 'Castro', 'RRHH', 'elena.castro@ecommerce.com', 2600.00),
+('Mario', 'Navarro', 'Transporte', 'mario.navarro@ecommerce.com', 1900.00),
+('Raúl', 'Martínez', 'Seguridad', 'raul.martinez@ecommerce.com', 1800.00),
+('Nuria', 'Jiménez', 'Compras', 'nuria.jimenez@ecommerce.com', 2300.00),
+('Iván', 'Serrano', 'Atención Postventa', 'ivan.serrano@ecommerce.com', 2000.00),
+('Carmen', 'López', 'Publicidad', 'carmen.lopez@ecommerce.com', 2400.00),
+('Santiago', 'Vega', 'Análisis de Datos', 'santiago.vega@ecommerce.com', 3200.00),
+('Patricia', 'Blanco', 'Supervisora', 'patricia.blanco@ecommerce.com', 2800.00),
+('Andrés', 'Gil', 'Gestión de Calidad', 'andres.gil@ecommerce.com', 2700.00),
+('Rosa', 'Herrera', 'Recepción', 'rosa.herrera@ecommerce.com', 1900.00);
+
+INSERT INTO Pagos (id_venta, metodo_pago, estado_pago, monto) VALUES
+(1, 'Tarjeta de Crédito', 'COMPLETADO', 749.98),
+(2, 'PayPal', 'COMPLETADO', 49.99),
+(3, 'Transferencia', 'PENDIENTE', 129.90),
+(4, 'Tarjeta de Débito', 'COMPLETADO', 34.95),
+(5, 'PayPal', 'EN_PROCESO', 499.00),
+(6, 'Efectivo', 'COMPLETADO', 89.99),
+(7, 'Tarjeta de Crédito', 'PENDIENTE', 24.50),
+(8, 'Transferencia', 'EN_PROCESO', 79.90),
+(9, 'PayPal', 'COMPLETADO', 159.99),
+(10, 'Efectivo', 'CANCELADO', 12.90),
+(11, 'Tarjeta de Débito', 'COMPLETADO', 699.00),
+(12, 'PayPal', 'COMPLETADO', 199.00),
+(13, 'Transferencia', 'PENDIENTE', 99.99),
+(14, 'Tarjeta de Crédito', 'EN_PROCESO', 149.90),
+(15, 'Efectivo', 'COMPLETADO', 29.99),
+(16, 'PayPal', 'COMPLETADO', 45.00),
+(17, 'Transferencia', 'EN_PROCESO', 39.99),
+(18, 'Efectivo', 'PENDIENTE', 89.99),
+(19, 'Tarjeta de Crédito', 'COMPLETADO', 9.99),
+(20, 'PayPal', 'EN_PROCESO', 699.99);
+
+INSERT INTO Envios (id_venta, empresa_transportista, fecha_envio, fecha_entrega_estimada, estado_envio) VALUES
+(1, 'DHL', '2025-10-10', '2025-10-13', 'ENTREGADO'),
+(2, 'FedEx', '2025-10-08', '2025-10-10', 'ENTREGADO'),
+(3, 'UPS', NULL, NULL, 'PENDIENTE'),
+(4, 'DHL', '2025-10-11', '2025-10-15', 'EN_CAMINO'),
+(5, 'Correos', NULL, NULL, 'PENDIENTE'),
+(6, 'FedEx', '2025-10-07', '2025-10-09', 'ENTREGADO'),
+(7, 'UPS', NULL, NULL, 'PENDIENTE'),
+(8, 'DHL', '2025-10-12', '2025-10-16', 'EN_CAMINO'),
+(9, 'FedEx', '2025-10-09', '2025-10-12', 'ENTREGADO'),
+(10, 'Correos', NULL, NULL, 'CANCELADO'),
+(11, 'UPS', '2025-10-14', '2025-10-18', 'EN_CAMINO'),
+(12, 'DHL', '2025-10-06', '2025-10-09', 'ENTREGADO'),
+(13, 'UPS', NULL, NULL, 'PENDIENTE'),
+(14, 'FedEx', '2025-10-15', '2025-10-19', 'EN_CAMINO'),
+(15, 'Correos', '2025-10-05', '2025-10-08', 'ENTREGADO'),
+(16, 'UPS', '2025-10-10', '2025-10-13', 'ENTREGADO'),
+(17, 'DHL', '2025-10-09', '2025-10-12', 'EN_CAMINO'),
+(18, 'FedEx', NULL, NULL, 'PENDIENTE'),
+(19, 'UPS', '2025-10-04', '2025-10-06', 'ENTREGADO'),
+(20, 'DHL', '2025-10-15', '2025-10-18', 'EN_CAMINO');
+
+INSERT INTO Inventario_Movimientos (id_producto, tipo_movimiento, cantidad, id_empleado, comentario) VALUES
+(1, 'ENTRADA', 50, 10, 'Compra inicial'),
+(2, 'ENTRADA', 100, 10, 'Reposición de stock'),
+(3, 'ENTRADA', 30, 10, 'Compra a proveedor'),
+(4, 'ENTRADA', 50, 10, 'Nueva colección'),
+(5, 'ENTRADA', 40, 10, 'Ingreso de temporada'),
+(6, 'ENTRADA', 60, 10, 'Reabastecimiento'),
+(7, 'ENTRADA', 80, 10, 'Nuevo lote'),
+(8, 'ENTRADA', 50, 10, 'Inventario inicial'),
+(9, 'SALIDA', 10, 10, 'Venta mayorista'),
+(10, 'ENTRADA', 15, 10, 'Reabastecimiento'),
+(11, 'SALIDA', 5, 10, 'Ajuste por daño'),
+(12, 'ENTRADA', 90, 10, 'Ingreso desde proveedor'),
+(13, 'SALIDA', 10, 10, 'Rotura de stock'),
+(14, 'ENTRADA', 20, 10, 'Nuevo modelo'),
+(15, 'ENTRADA', 60, 10, 'Compra interna'),
+(16, 'SALIDA', 10, 10, 'Obsolescencia'),
+(17, 'ENTRADA', 45, 10, 'Ingreso manual'),
+(18, 'ENTRADA', 10, 10, 'Lote nuevo'),
+(19, 'SALIDA', 5, 10, 'Ajuste de inventario'),
+(20, 'ENTRADA', 25, 10, 'Ingreso inicial');
