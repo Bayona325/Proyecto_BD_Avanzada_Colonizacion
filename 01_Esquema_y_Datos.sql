@@ -1,3 +1,9 @@
+CREATE TABLE Sucursales (
+  id_sucursal INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  ciudad VARCHAR(100) NOT NULL
+);
+
 CREATE TABLE Categorias (
   id_categoria INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL UNIQUE,
@@ -43,7 +49,9 @@ CREATE TABLE Ventas (
   fecha_venta DATETIME DEFAULT CURRENT_TIMESTAMP,
   estado ENUM('PENDIENTE_PAGO','PROCESANDO','ENVIADO','ENTREGADO','CANCELADO') DEFAULT 'PENDIENTE_PAGO',
   total DECIMAL(10,2) NOT NULL CHECK (total >= 0),
-  FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
+  id_sucursal INT NOT NULL,
+  FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente),
+  FOREIGN KEY (id_sucursal) REFERENCES Sucursales(id_sucursal)
 );
 
 CREATE TABLE Detalle_Ventas (
@@ -63,7 +71,9 @@ CREATE TABLE Empleados (
   cargo VARCHAR(50),
   email VARCHAR(100) UNIQUE,
   fecha_contratacion DATE DEFAULT CURRENT_TIMESTAMP,
-  salario DECIMAL(10,2)
+  salario DECIMAL(10,2),
+  id_sucursal INT NOT NULL,
+  FOREIGN KEY (id_sucursal) REFERENCES Sucursales(id_sucursal)
 );
 
 CREATE TABLE Pagos (
@@ -97,6 +107,12 @@ CREATE TABLE Inventario_Movimientos (
   FOREIGN KEY (id_producto) REFERENCES Productos(id_producto),
   FOREIGN KEY (id_empleado) REFERENCES Empleados(id_empleado)
 );
+
+INSERT INTO Sucursales (nombre, ciudad) VALUES
+('Sucursal Madrid', 'Madrid'),
+('Sucursal Barcelona', 'Barcelona'),
+('Sucursal Sevilla', 'Sevilla');
+
 
 INSERT INTO Categorias (nombre, descripcion) VALUES
 ('Electrónica', 'Productos electrónicos y dispositivos tecnológicos.'),
@@ -186,27 +202,27 @@ INSERT INTO Clientes (nombre, apellido, email, contraseña, direccion_envio) VAL
 ('Rosa', 'Luna', 'rosa.luna@email.com', 'hash606ooo', 'Av. Libertad 16, Oviedo'),
 ('Fernando', 'Blanco', 'fernando.blanco@email.com', 'hash707ppp', 'Paseo del Prado 25, Madrid');
 
-INSERT INTO Ventas (id_cliente, estado, total) VALUES
-(1, 'Procesando', 749.98),
-(2, 'Enviado', 49.99),
-(3, 'Pendiente_Pago', 129.90),
-(4, 'Entregado', 34.95),
-(5, 'Procesando', 499.00),
-(6, 'Entregado', 89.99),
-(7, 'Pendiente_Pago', 24.50),
-(8, 'Procesando', 79.90),
-(9, 'Enviado', 159.99),
-(10, 'Cancelado', 12.90),
-(11, 'Procesando', 699.00),
-(12, 'Entregado', 199.00),
-(13, 'Pendiente_Pago', 99.99),
-(14, 'Procesando', 149.90),
-(15, 'Entregado', 29.99),
-(16, 'Enviado', 45.00),
-(17, 'Procesando', 39.99),
-(18, 'Pendiente_Pago', 89.99),
-(19, 'Entregado', 9.99),
-(20, 'Procesando', 699.99);
+INSERT INTO Ventas (id_cliente, estado, total, id_sucursal) VALUES
+(1, 'Procesando', 749.98, 1),
+(2, 'Enviado', 49.99, 1),
+(3, 'Pendiente_Pago', 129.90, 1),
+(4, 'Entregado', 34.95, 1),
+(5, 'Procesando', 499.00, 1),
+(6, 'Entregado', 89.99, 1),
+(7, 'Pendiente_Pago', 24.50, 1),
+(8, 'Procesando', 79.90, 2),
+(9, 'Enviado', 159.99, 2),
+(10, 'Cancelado', 12.90, 2),
+(11, 'Procesando', 699.00, 2),
+(12, 'Entregado', 199.00, 2),
+(13, 'Pendiente_Pago', 99.99, 2),
+(14, 'Procesando', 149.90, 2),
+(15, 'Entregado', 29.99, 3),
+(16, 'Enviado', 45.00, 3),
+(17, 'Procesando', 39.99, 3),
+(18, 'Pendiente_Pago', 89.99, 3),
+(19, 'Entregado', 9.99, 3),
+(20, 'Procesando', 699.99, 3);
 
 INSERT INTO Detalle_Ventas (id_venta, id_producto, cantidad, precio_unitario_congelado) VALUES
 (1, 1, 1, 699.99),
@@ -230,27 +246,27 @@ INSERT INTO Detalle_Ventas (id_venta, id_producto, cantidad, precio_unitario_con
 (18, 19, 1, 89.99),
 (19, 12, 1, 9.99);
 
-INSERT INTO Empleados (nombre, apellido, cargo, email, salario) VALUES
-('Laura', 'Ramírez', 'Gerente General', 'laura.ramirez@ecommerce.com', 4500.00),
-('Carlos', 'Torres', 'Administrador', 'carlos.torres@ecommerce.com', 3500.00),
-('Marta', 'Pérez', 'Atención al Cliente', 'marta.perez@ecommerce.com', 2000.00),
-('Javier', 'Santos', 'Logística', 'javier.santos@ecommerce.com', 2200.00),
-('Ana', 'Ruiz', 'Marketing', 'ana.ruiz@ecommerce.com', 2500.00),
-('David', 'Gómez', 'Contabilidad', 'david.gomez@ecommerce.com', 2400.00),
-('Lucía', 'Morales', 'Diseño', 'lucia.morales@ecommerce.com', 2100.00),
-('Pablo', 'Hernández', 'TI', 'pablo.hernandez@ecommerce.com', 3000.00),
-('Sofía', 'Díaz', 'Ventas', 'sofia.diaz@ecommerce.com', 2300.00),
-('Diego', 'Fernández', 'Inventario', 'diego.fernandez@ecommerce.com', 2200.00),
-('Elena', 'Castro', 'RRHH', 'elena.castro@ecommerce.com', 2600.00),
-('Mario', 'Navarro', 'Transporte', 'mario.navarro@ecommerce.com', 1900.00),
-('Raúl', 'Martínez', 'Seguridad', 'raul.martinez@ecommerce.com', 1800.00),
-('Nuria', 'Jiménez', 'Compras', 'nuria.jimenez@ecommerce.com', 2300.00),
-('Iván', 'Serrano', 'Atención Postventa', 'ivan.serrano@ecommerce.com', 2000.00),
-('Carmen', 'López', 'Publicidad', 'carmen.lopez@ecommerce.com', 2400.00),
-('Santiago', 'Vega', 'Análisis de Datos', 'santiago.vega@ecommerce.com', 3200.00),
-('Patricia', 'Blanco', 'Supervisora', 'patricia.blanco@ecommerce.com', 2800.00),
-('Andrés', 'Gil', 'Gestión de Calidad', 'andres.gil@ecommerce.com', 2700.00),
-('Rosa', 'Herrera', 'Recepción', 'rosa.herrera@ecommerce.com', 1900.00);
+INSERT INTO Empleados (nombre, apellido, cargo, email, salario, id_sucursal) VALUES
+('Laura', 'Ramírez', 'Gerente General', 'laura.ramirez@ecommerce.com', 4500.00, 1),
+('Carlos', 'Torres', 'Administrador', 'carlos.torres@ecommerce.com', 3500.00, 1),
+('Marta', 'Pérez', 'Atención al Cliente', 'marta.perez@ecommerce.com', 2000.00, 1),
+('Javier', 'Santos', 'Logística', 'javier.santos@ecommerce.com', 2200.00, 1),
+('Ana', 'Ruiz', 'Marketing', 'ana.ruiz@ecommerce.com', 2500.00, 1),
+('David', 'Gómez', 'Contabilidad', 'david.gomez@ecommerce.com', 2400.00, 1),
+('Lucía', 'Morales', 'Diseño', 'lucia.morales@ecommerce.com', 2100.00, 1),
+('Pablo', 'Hernández', 'TI', 'pablo.hernandez@ecommerce.com', 3000.00, 2),
+('Sofía', 'Díaz', 'Ventas', 'sofia.diaz@ecommerce.com', 2300.00, 2),
+('Diego', 'Fernández', 'Inventario', 'diego.fernandez@ecommerce.com', 2200.00, 2),
+('Elena', 'Castro', 'RRHH', 'elena.castro@ecommerce.com', 2600.00, 2),
+('Mario', 'Navarro', 'Transporte', 'mario.navarro@ecommerce.com', 1900.00, 2),
+('Raúl', 'Martínez', 'Seguridad', 'raul.martinez@ecommerce.com', 1800.00, 2),
+('Nuria', 'Jiménez', 'Compras', 'nuria.jimenez@ecommerce.com', 2300.00, 2),
+('Iván', 'Serrano', 'Atención Postventa', 'ivan.serrano@ecommerce.com', 2000.00, 3),
+('Carmen', 'López', 'Publicidad', 'carmen.lopez@ecommerce.com', 2400.00, 3),
+('Santiago', 'Vega', 'Análisis de Datos', 'santiago.vega@ecommerce.com', 3200.00, 3),
+('Patricia', 'Blanco', 'Supervisora', 'patricia.blanco@ecommerce.com', 2800.00, 3),
+('Andrés', 'Gil', 'Gestión de Calidad', 'andres.gil@ecommerce.com', 2700.00, 3),
+('Rosa', 'Herrera', 'Recepción', 'rosa.herrera@ecommerce.com', 1900.00, 3);
 
 INSERT INTO Pagos (id_venta, metodo_pago, estado_pago, monto) VALUES
 (1, 'Tarjeta de Crédito', 'COMPLETADO', 749.98),
