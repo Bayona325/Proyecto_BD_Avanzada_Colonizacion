@@ -12,7 +12,7 @@ La base de datos está optimizada para **consultas analíticas, auditorías auto
 
 - Adrián David Bayona Solano
 - Juan José Rivero Camargo
-- Andres Felipe
+- Andrés Felipe perea Carballido
 
 ---
 
