@@ -198,8 +198,8 @@ El archivo `Proyecto_BD_Avanzada_Colonizacion.png` contiene el **modelo visual d
 | Consultas Avanzadas | ✅ Completo     | `02_Consultas_Avanzadas.sql`        |
 | Funciones (UDFs)    | ✅ Completo     | `03_Funciones.sql`                  |
 | Seguridad           | 🚧 En progreso | `04_Seguridad.sql`                  |
-| Triggers            | 🚧 Pendiente   | `05_Triggers.sql`                   |
-| Eventos             | 🚧 Pendiente   | `06_Eventos.sql`                    |
-| Procedimientos      | 🚧 Pendiente   | `07_Procedimientos_Almacenados.sql` |
+| Triggers            | ✅ Completo   | `05_Triggers.sql`                   |
+| Eventos             | ✅ Completo   | `06_Eventos.sql`                    |
+| Procedimientos      | ✅ Completo   | `07_Procedimientos_Almacenados.sql` |
 
 ---
