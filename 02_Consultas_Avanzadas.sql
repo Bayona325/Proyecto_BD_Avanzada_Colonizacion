@@ -44,10 +44,6 @@ COUNT(p.id_producto) > 1 AND SUM(dv.cantidad) < (
     p.nombre_producto,
     c.nombre AS categoria,
     SUM(dv.cantidad) AS total_vendido
-
-
-            
-
     total_vendido ASC;
 
 -- 3.clientes BLP listar los 5 clientes con el mayor valorr de vida (LTV), basando en su gasto total historrico.
@@ -90,7 +86,6 @@ ORDER BY
     YEAR(fecha), MONTH(fecha);
 
 --- 5.Crecimiento de Clientes: Calcular el número de nuevos clientes registrados por trimestre.
-
 SELECT 
     YEAR(fecha_registro) AS anio,
     QUARTER(fecha_registro) AS trimestre,
@@ -128,7 +123,7 @@ FROM
 JOIN 
     DetalleVenta dv2 
     ON dv1.id_venta = dv2.id_venta 
-    AND dv1.id_producto < dv2.id_producto   -- evita duplicados e inversos (A-B y B-A)
+    AND dv1.id_producto < dv2.id_producto
 GROUP BY 
     dv1.id_producto, dv2.id_producto
 ORDER BY 
@@ -362,7 +357,6 @@ SELECT
     recencia_dias,
     frecuencia,
     monetario,
-    -- Asignación de puntajes 1-5 según rangos (más alto = mejor cliente)
     CASE 
         WHEN recencia_dias <= 7 THEN 5
         WHEN recencia_dias <= 30 THEN 4
@@ -395,7 +389,7 @@ SELECT
 FROM Ventas v
 INNER JOIN Productos p ON v.id_producto = p.id_producto
 INNER JOIN Categorias c ON p.id_categoria = c.id_categoria
-WHERE c.nombre = 'Bebidas'  -- 👈 Cambia por la categoría que deseas analizar
+WHERE c.nombre = 'Bebidas'
 GROUP BY c.nombre, DATE_FORMAT(v.fecha_venta, '%Y-%m')
 ORDER BY mes;
 
@@ -413,8 +407,8 @@ FROM (
     INNER JOIN Productos p ON v.id_producto = p.id_producto
     GROUP BY p.id_categoria, DATE_FORMAT(v.fecha_venta, '%Y-%m')
     ORDER BY mes DESC
-    LIMIT 3  -- 👈 Últimos 3 meses
+    LIMIT 3
 ) AS mensual
 INNER JOIN Categorias c ON mensual.id_categoria = c.id_categoria
-WHERE c.nombre = 'Bebidas'  -- Cambiar por la categoría deseada
+WHERE c.nombre = 'Bebidas' 
 GROUP BY c.nombre;
