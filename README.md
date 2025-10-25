@@ -11,8 +11,8 @@ La base de datos está optimizada para **consultas analíticas, auditorías auto
 ## 👥 Integrantes del Equipo
 
 - Adrián David Bayona Solano
+- Juan José Rivero Camargo
 - Andres Felipe
-- Juan Jose
 
 ---
 
