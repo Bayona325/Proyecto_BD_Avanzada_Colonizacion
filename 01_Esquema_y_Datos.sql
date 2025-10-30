@@ -70,7 +70,7 @@ CREATE TABLE Empleados (
   apellido VARCHAR(50) NOT NULL,
   cargo VARCHAR(50),
   email VARCHAR(100) UNIQUE,
-  fecha_contratacion DATE DEFAULT CURRENT_TIMESTAMP,
+  fecha_contratacion DATETIME DEFAULT CURRENT_TIMESTAMP,
   salario DECIMAL(10,2),
   id_sucursal INT NOT NULL,
   FOREIGN KEY (id_sucursal) REFERENCES Sucursales(id_sucursal)
